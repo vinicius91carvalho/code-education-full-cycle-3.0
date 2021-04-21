@@ -12,7 +12,7 @@ services:
         tty: true
         ports:
             - "3000:3000"
-        command: node index.js
+        # command: node index.js
     db:
         image: mysql:5.7
         command: --innodb-use-native-aio=0
