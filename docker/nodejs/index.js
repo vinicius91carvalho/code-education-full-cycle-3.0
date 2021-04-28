@@ -10,12 +10,27 @@ const config = {
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values('Vinicius')`
-connection.query(sql)
-connection.end()
+try {
+    connection.query('CREATE TABLE IF NOT EXISTS people (name varchar(100) NOT NULL PRIMARY KEY)')
+    connection.query(`INSERT IGNORE INTO people(name) values('Fulano')`)
+} catch(error) {
+    console.error(error)
+} finally {
+    connection.end()
+}
 
 app.get('/', (req, res) => {
-    res.send('<h1>Full Cycle</h1>')
+    const connection = mysql.createConnection(config)
+    connection.query('SELECT * FROM people', function (error, results, fields) {
+        if (error) throw error;
+
+        const name = results[0].name
+        res.send(`
+            <h1>Full Cycle</h1>
+            <p style="color: red">${name}</p>
+        `)
+      });
+    
 })
 
 app.listen(PORT, () => {
