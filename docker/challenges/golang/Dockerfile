@@ -1,5 +1,5 @@
 FROM golang:alpine AS builder
-WORKDIR $GOPATH/thiagojsimaome
+WORKDIR $GOPATH/vinicius91carvalho
 COPY app.go .
 RUN go mod init app.go
 RUN go build -o /go/app
